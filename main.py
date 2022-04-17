@@ -1,3 +1,4 @@
+import os.path
 import time
 import pyautogui
 import string
@@ -33,7 +34,10 @@ async def sign_up():
     print('email printed')
 
     pyautogui.press('enter')
-    reddit_accounts_file = open('reddit_accounts.txt', 'a')
+    if (os.path.exists('reddit_accounts.txt')):
+        reddit_accounts_file = open('reddit_accounts.txt', 'a')
+    else:
+        reddit_accounts_file = open('reddit_accounts.txt', 'w')
 
     username_textbox_location = pyautogui.center(wait_until_locate('images\\reddit_choose_a_username_textbox_image.png'))
     pyautogui.click(username_textbox_location.x, username_textbox_location.y)
