@@ -1,0 +1,2 @@
+#This file contains names and passwords in format
+#Name - Password
