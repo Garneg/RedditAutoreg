@@ -20,7 +20,7 @@ async def start_browser():
 
 async def sign_up():
     signup_btn_location = pyautogui.center(wait_until_locate('images\\reddit_signin_button_image.png'))
-    time.sleep(1)
+    time.sleep(5)
     pyautogui.click(signup_btn_location.x, signup_btn_location.y)
     print('sign in button clicked')
 
@@ -49,7 +49,7 @@ async def sign_up():
     print('password textbox entered')
 
     generated_password = str().join(
-        random.choices(string.ascii_lowercase + string.ascii_uppercase + string.digits + string.punctuation, k=12))
+        random.choices(string.ascii_lowercase + string.ascii_uppercase + string.digits, k=12))
     pyautogui.write(generated_password)
     reddit_accounts_file.write(generated_password + '\n')
     print('password printed')
