@@ -1,65 +1,78 @@
 import os.path
 import time
 import pyautogui
-import string
-import random
 import asyncio
 import subprocess
 
+import utils
 
-def wait_until_locate(image_path: str):
+
+def wait_until_locate(image_path: str, downtime=1):
     probably_point = None
     while probably_point is None:
-        time.sleep(0.5)
+        time.sleep(downtime)
         probably_point = pyautogui.locateOnScreen(image_path)
     return probably_point
 
 
 async def start_browser():
-    subprocess.Popen(['C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', '-inprivate', 'reddit.com'])
+    subprocess.Popen(['C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', '-inprivate', 'https://www.reddit.com/register/'])
 
 
 async def sign_up():
-    signup_btn_location = pyautogui.center(wait_until_locate('images\\reddit_signin_button_image.png'))
-    time.sleep(5)
-    pyautogui.click(signup_btn_location.x, signup_btn_location.y)
-    print('sign in button clicked')
+    # signup_btn_location = pyautogui.center(wait_until_locate('images\\reddit_signin_button_image.png'))
+    # time.sleep(5)
+    # pyautogui.click(signup_btn_location.x, signup_btn_location.y)
+    # print('sign in button clicked')
+    #
+    # time.sleep(2)
 
-    email_textbox_location = pyautogui.center(wait_until_locate('images\\reddit_email_textbox_image.png'))
+    email_textbox_location = pyautogui.center(wait_until_locate('images\\reddit_new_email_textbox_image.png'))
     pyautogui.click(email_textbox_location.x, email_textbox_location.y)
     print('email textbox entered')
 
-    generated_email = str().join(random.choices(string.ascii_lowercase, k=10)) + '@gmail.com'
+    generated_email = utils.generate_email()
     pyautogui.write(generated_email)
     print('email printed')
 
     pyautogui.press('enter')
-    if (os.path.exists('reddit_accounts.txt')):
+    if os.path.exists('reddit_accounts.txt'):
         reddit_accounts_file = open('reddit_accounts.txt', 'a')
     else:
         reddit_accounts_file = open('reddit_accounts.txt', 'w')
 
-    username_textbox_location = pyautogui.center(wait_until_locate('images\\reddit_choose_a_username_textbox_image.png'))
+    username_textbox_location = pyautogui.center(
+        wait_until_locate('images\\reddit_choose_a_username_textbox_image.png'))
     pyautogui.click(username_textbox_location.x, username_textbox_location.y)
     print('username textbox entered')
 
-    generated_username = str().join(random.choices(string.ascii_lowercase + string.ascii_uppercase + string.digits, k=20))
+    generated_username = utils.generate_name()
     pyautogui.write(generated_username)
     reddit_accounts_file.write(generated_username + " - ")
     print('username printed')
-
     password_textbox_location = pyautogui.center(wait_until_locate('images\\reddit_password_textbox_image.png'))
     pyautogui.click(password_textbox_location.x, password_textbox_location.y)
     print('password textbox entered')
 
-    generated_password = str().join(
-        random.choices(string.ascii_lowercase + string.ascii_uppercase + string.digits, k=12))
+    generated_password = utils.generate_password()
     pyautogui.write(generated_password)
     reddit_accounts_file.write(generated_password + '\n')
     print('password printed')
     reddit_accounts_file.close()
     print('file closed')
 
+    time.sleep(3)
+    reCaptcha_location = pyautogui.center(wait_until_locate('images\\reddit_reCAPTCHA_image.png', downtime=2))
+    pyautogui.click(reCaptcha_location)
+    time.sleep(5)
+    sign_up_location = pyautogui.center(wait_until_locate('images\\reddit_finishing_sign_up_button_image.png', downtime=3))
+    pyautogui.click(sign_up_location)
+    time.sleep(3)
+    pyautogui.hotkey('alt', 'f4')
+
+
 asyncio.run(start_browser())
 print('browser opened')
+
 asyncio.run(sign_up())
+print('done')
