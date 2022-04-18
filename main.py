@@ -1,4 +1,3 @@
-import io
 import os.path
 import random
 import time
@@ -61,10 +60,14 @@ async def sign_up():
     pyautogui.click(reCaptcha_location)
     time.sleep(5)
     wait_until_locate('images\\reddit_reCaptcha_completed_image.png')
+    print('reCaptcha solved')
     sign_up_location = pyautogui.center(wait_until_locate('images\\reddit_finishing_sign_up_button_image.png', downtime=3))
     pyautogui.click(sign_up_location)
+    print('sign up done')
     time.sleep(3)
     pyautogui.hotkey('alt', 'f4')
+    print('browser closed')
+
 
 asyncio.run(start_browser())
 print('browser opened')
