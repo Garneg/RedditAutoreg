@@ -21,13 +21,6 @@ async def start_browser():
 
 
 async def sign_up():
-    # signup_btn_location = pyautogui.center(wait_until_locate('images\\reddit_signin_button_image.png'))
-    # time.sleep(5)
-    # pyautogui.click(signup_btn_location.x, signup_btn_location.y)
-    # print('sign in button clicked')
-    #
-    # time.sleep(2)
-
     email_textbox_location = pyautogui.center(wait_until_locate('images\\reddit_new_email_textbox_image.png'))
     pyautogui.click(email_textbox_location.x, email_textbox_location.y)
     print('email textbox entered')
@@ -73,8 +66,6 @@ async def sign_up():
     time.sleep(3)
     pyautogui.hotkey('alt', 'f4')
 
-random_location = random.choice(open('windscribe_locations.txt', 'r').readlines())
-os.system(r'cmd.exe /c "C:\Program Files (x86)\Windscribe\windscribe-cli.exe" connect ' + random_location)
 asyncio.run(start_browser())
 print('browser opened')
 
