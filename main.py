@@ -1,9 +1,10 @@
+import io
 import os.path
+import random
 import time
 import pyautogui
 import asyncio
 import subprocess
-
 import utils
 
 
@@ -58,6 +59,7 @@ async def sign_up():
     pyautogui.write(generated_password)
     reddit_accounts_file.write(generated_password + '\n')
     print('password printed')
+    pyautogui.press('enter')
     reddit_accounts_file.close()
     print('file closed')
 
@@ -65,12 +67,14 @@ async def sign_up():
     reCaptcha_location = pyautogui.center(wait_until_locate('images\\reddit_reCAPTCHA_image.png', downtime=2))
     pyautogui.click(reCaptcha_location)
     time.sleep(5)
+    wait_until_locate('images\\reddit_reCaptcha_completed_image.png')
     sign_up_location = pyautogui.center(wait_until_locate('images\\reddit_finishing_sign_up_button_image.png', downtime=3))
     pyautogui.click(sign_up_location)
     time.sleep(3)
     pyautogui.hotkey('alt', 'f4')
 
-
+random_location = random.choice(open('windscribe_locations.txt', 'r').readlines())
+os.system(r'cmd.exe /c "C:\Program Files (x86)\Windscribe\windscribe-cli.exe" connect ' + random_location)
 asyncio.run(start_browser())
 print('browser opened')
 

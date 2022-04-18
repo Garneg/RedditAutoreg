@@ -17,3 +17,7 @@ def generate_password() -> str:
 def generate_email() -> str:
     generated_email = str().join(random.choices(string.ascii_lowercase, k=10)) + '@gmail.com'
     return generated_email
+
+
+def windscribe_connect(location: str):
+    print('lol')
